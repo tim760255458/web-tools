@@ -1,0 +1,4 @@
+.vue-table {
+  /* 解决 合计项 展示不出来的问题 */
+  overflow: visible !important;
+}
