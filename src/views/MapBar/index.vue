@@ -42,7 +42,7 @@
             <map-bar
               :items.sync="mapbarArr"
               v-model="selectMapBar"
-              @click-node="handleClickNodeTwo"
+              :callback="{ click: handleClickNodeThree }"
             />
           </div>
         </el-card>
@@ -57,7 +57,7 @@
             <map-bar
               :items.sync="mapbarArr"
               v-model="selectMapBar"
-              @click-node="handleClickNodeTwo"
+              :callback="{ click: handleClickNodeThree }"
             />
           </div>
         </el-card>
@@ -72,9 +72,11 @@ import {
   addNodeSelect,
   expandNode,
 } from "../../utils/mapbar";
+import mapbar from "../../mixins/mapbar";
 
 export default {
   components: { MapBar },
+  mixins: [mapbar],
   filters: {
     formatBtnType(item) {
       return item.isSelect ? "primary" : item.isLeafSelect ? "default" : "text";
@@ -136,6 +138,10 @@ export default {
     // 此方法点击父节点时，只控制是否显示子节点
     handleClickNodeTwo(node) {
       this.mapbarArr = expandNode(node, this.mapbarArr);
+    },
+
+    handleClickNodeThree(node) {
+      console.log(node);
     },
 
     initMapTool() {

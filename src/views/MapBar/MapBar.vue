@@ -69,7 +69,7 @@ export default {
   },
   methods: {
     clickNode(node) {
-      this.$emit("click-node", node);
+      this.callback["click"](node);
       if (this.link) {
         this.itemArr = expandNode(node, this.itemArr);
       } else {
