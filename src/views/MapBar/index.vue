@@ -39,7 +39,11 @@
             <span>示例二（支持任意层级）</span>
           </div>
           <div class="mapbar2">
-            <map-bar :options="mapbarItems" @click-node="handleClickNodeTwo" />
+            <map-bar
+              :items.sync="mapbarArr"
+              v-model="selectMapBar"
+              @click-node="handleClickNodeTwo"
+            />
           </div>
         </el-card>
       </el-col>
@@ -49,8 +53,12 @@
             <span>示例三（与地图联动）</span>
           </div>
           <div class="mapbar3">
-            <div class="mapbar3-map" v-map></div>
-            <map-bar :options="mapbarItems" @click-node="handleClickNodeTwo" />
+            <div class="mapbar3-map" ref="map" v-map></div>
+            <map-bar
+              :items.sync="mapbarArr"
+              v-model="selectMapBar"
+              @click-node="handleClickNodeTwo"
+            />
           </div>
         </el-card>
       </el-col>
@@ -58,7 +66,6 @@
   </div>
 </template>
 <script>
-import mapbar from "../../mixins/mapbar";
 import MapBar from "./MapBar.vue";
 import {
   removeNodeSelect,
@@ -68,7 +75,6 @@ import {
 
 export default {
   components: { MapBar },
-  mixins: [mapbar],
   filters: {
     formatBtnType(item) {
       return item.isSelect ? "primary" : item.isLeafSelect ? "default" : "text";
@@ -118,6 +124,7 @@ export default {
     ],
     // 只填写选中的叶子节点id
     selectMapBar: ["spjk_1"],
+    mapTool: null,
   }),
   methods: {
     // 此方法点击父节点时，会联动选中或取消选中叶子节点
@@ -129,6 +136,10 @@ export default {
     // 此方法点击父节点时，只控制是否显示子节点
     handleClickNodeTwo(node) {
       this.mapbarArr = expandNode(node, this.mapbarArr);
+    },
+
+    initMapTool() {
+      this.mapTool = new this.$MapTool(this.$refs.map.map);
     },
   },
 };

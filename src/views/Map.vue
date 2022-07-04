@@ -77,8 +77,8 @@ export default {
         autoOpenOn: null,
       });
     },
-    markerClick({ target }) {
-      this.mapTool.geometryClick({ ins: target });
+    markerClick(event) {
+      this.mapTool.geometryClick({ event });
     },
 
     handleToggleMarker() {
