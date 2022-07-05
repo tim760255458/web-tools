@@ -20,6 +20,8 @@ import bindComponents from "./utils/bindComponents";
 import * as dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 
+import * as turf from "@turf/turf";
+
 Vue.use(ElementUI, { size: "small" });
 
 window.$maptalks = maptalks;
@@ -31,6 +33,8 @@ Vue.prototype.$three = THREE;
 
 dayjs.locale("zh-cn");
 Vue.prototype.$dayjs = dayjs;
+
+Vue.prototype.$turf = turf;
 
 bindDirect(Vue);
 bindComponents(Vue);

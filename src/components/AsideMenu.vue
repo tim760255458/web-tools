@@ -29,6 +29,11 @@ export default {
         value: "/mapbar",
         icon: "el-icon-map-location",
       },
+      {
+        label: "Maptalks",
+        value: "/maptalks",
+        icon: "el-icon-map-location",
+      },
     ],
   }),
 };

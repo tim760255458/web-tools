@@ -55,6 +55,11 @@ export const routes = [
         name: "MapBar",
         component: () => import("../views/MapBar/index.vue"),
       },
+      {
+        path: "maptalks",
+        name: "Maptalks",
+        component: () => import("../views/Maptalks/index.vue"),
+      }
     ],
   },
   {
