@@ -6,7 +6,7 @@
         <el-card shadow="hover" :body-style="{ padding: '5px' }">
           <div slot="header" class="el-card-header">
             <span
-              >示例一（按钮primary样式代表选中节点本身，default样式代表有子节点被选中，text样式代表未选中）</span
+              >示例一（按钮primary样式代表选中节点本身，default样式代表有后代节点被选中，text样式代表未选中）</span
             >
           </div>
           <div class="mapbar">

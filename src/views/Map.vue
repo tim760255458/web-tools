@@ -37,7 +37,9 @@ export default {
     visibleMarker: true,
   }),
   mounted() {
-    this.initMapTool();
+    setTimeout(() => {
+      this.initMapTool();
+    }, 0);
   },
   methods: {
     initMapTool() {
