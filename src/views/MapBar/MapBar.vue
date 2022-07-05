@@ -71,11 +71,17 @@ export default {
     clickNode(node) {
       this.callback["click"](node);
       if (this.link) {
-        this.itemArr = expandNode(node, this.itemArr);
-      } else {
         this.selects = node.isSelect
           ? removeNodeSelect(node, this.selects)
           : addNodeSelect(node, this.selects);
+      } else {
+        if (node.children && node.children.length) {
+          this.itemArr = expandNode(node, this.itemArr);
+        } else {
+          this.selects = node.isSelect
+            ? removeNodeSelect(node, this.selects)
+            : addNodeSelect(node, this.selects);
+        }
       }
     },
   },
@@ -114,6 +120,7 @@ export default {
     background-position: top right;
     background-size: auto;
   }
+
   &::after {
     content: " ";
     display: block;

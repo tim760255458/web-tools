@@ -23,8 +23,8 @@
                       <el-button
                         :type="child | formatBtnType"
                         @click.stop="handleClickNode(child)"
-                        >{{ child.id }}</el-button
-                      >
+                        >{{ child.id }}
+                      </el-button>
                     </div>
                   </template>
                 </div>
@@ -53,7 +53,7 @@
             <span>示例三（与地图联动）</span>
           </div>
           <div class="mapbar3">
-            <div class="mapbar3-map" ref="map" v-map></div>
+            <div class="mapbar3-map" ref="maptool" v-map></div>
             <map-bar
               :items.sync="mapbarArr"
               v-model="selectMapBar"
@@ -128,6 +128,12 @@ export default {
     selectMapBar: ["spjk_1"],
     mapTool: null,
   }),
+  mounted() {
+    setTimeout(() => {
+      this.initMapTool();
+      this.toggleSpjk1({ id: "spjk_1", isSelect: true });
+    }, 0);
+  },
   methods: {
     // 此方法点击父节点时，会联动选中或取消选中叶子节点
     handleClickNode(node) {
@@ -141,11 +147,57 @@ export default {
     },
 
     handleClickNodeThree(node) {
-      console.log(node);
+      if (!(node.children && node.children.length)) {
+        switch (node.id) {
+          case "spjk_1":
+            this.toggleSpjk1(node);
+            break;
+        }
+      }
     },
 
     initMapTool() {
-      this.mapTool = new this.$MapTool(this.$refs.map.map);
+      this.mapTool = new this.$MapTool(this.$refs.maptool.map);
+    },
+    loadSpjk1(node) {
+      const { id, isSelect } = node;
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve([{ lng: -0.113049, lat: 51.498568, id: 1, name: "标题1" }]);
+        }, 3000);
+      }).then((res) => {
+        this.mapTool.addGeometry({
+          id,
+          layerId: id,
+          arr: res,
+          createGeometry: (obj) =>
+            new this.$maptalks.Marker([obj.lng, obj.lat], {
+              id: obj.id,
+              properties: obj,
+              visible: isSelect,
+              symbol: {
+                markerFile: require("../../assets/logo.png"),
+                markerWidth: 20,
+                markerHeight: 20,
+              },
+            }),
+          setInfoWindow: (geometry) =>
+            geometry.setInfoWindow({
+              title: geometry.getProperties().name,
+              content: geometry.getProperties().name,
+            }),
+        });
+      });
+    },
+    toggleSpjk1(node) {
+      if (!this.mapTool.geometrys.has(node.id)) {
+        if (!this.mapTool.layerIds.has(node.id)) {
+          this.mapTool.addLayer({ id: node.id });
+        }
+        this.loadSpjk1(node);
+      } else {
+        this.mapTool.toggleVisible(node.id, !node.isSelect);
+      }
     },
   },
 };
@@ -154,21 +206,25 @@ export default {
 .mapbar {
   display: flex;
   height: 200px;
+
   &-item {
     margin: 10px;
     padding: 10px;
     border: 1px solid #2a2a2a;
   }
 }
+
 .mapbar2 {
   height: 300px;
   position: relative;
   background-color: #2a2a2a;
 }
+
 .mapbar3 {
   height: 500px;
   position: relative;
   background-color: #2a2a2a;
+
   &-map {
     width: 100%;
     height: 100%;
