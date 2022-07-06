@@ -7,7 +7,7 @@
           <div slot="header" class="el-card-header">
             <span>大量数据的渲染优化</span>
           </div>
-          <div v-map ref="map1" style="height: 400px"></div>
+          <div v-map ref="map1" style="height: 600px"></div>
         </el-card>
       </el-col>
     </el-row>
@@ -17,16 +17,67 @@
 <script>
 export default {
   data: () => ({
+    mapIns: null,
+    maptool: null,
+    extent: null,
     dots: [],
+    icon: require("../../assets/icon.png"),
   }),
+  mounted() {
+    setTimeout(() => {
+      this.setMapIns();
+      this.setMaptool();
+      this.getViewExtent();
+      this.createDots();
+      this.renderDots();
+    }, 0);
+  },
   methods: {
-    mockDots() {
-      this.dots = [];
+    setMapIns() {
+      this.mapIns = this.$refs.map1.map;
     },
-    initMap1() {},
+    setMaptool() {
+      this.maptool = new this.$MapTool(this.mapIns);
+    },
+    getViewExtent() {
+      this.extent = this.mapIns.getExtent();
+    },
+    createDots() {
+      const { xmin, ymin, xmax, ymax } = this.extent;
+      this.dots = this.$turf.coordAll(
+        this.$turf.randomPoint(1000, {
+          bbox: [xmin, ymin, xmax, ymax],
+        })
+      );
+    },
+    renderDots() {
+      this.maptool.addLayer({ id: "maptalks" });
+      this.maptool.addGeometry({
+        id: "maptalks",
+        layerId: "maptalks",
+        arr: this.dots.map((el, idx) => ({ id: idx, dots: el })),
+        createGeometry: (obj) =>
+          new this.$maptalks.Marker(obj.dots, {
+            id: obj.id,
+            symbol: {
+              markerFile: this.icon,
+              markerWidth: 16,
+              markerHeight: 16,
+            },
+          }),
+        setInfoWindow: (geometry) =>
+          geometry.setInfoWindow({
+            title: geometry.getId(),
+            content: "test",
+            autoOpenOn: null,
+          }),
+        listeners: {
+          click: (event) => this.maptool.geometryClick({ event }),
+        },
+      });
+    },
   },
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

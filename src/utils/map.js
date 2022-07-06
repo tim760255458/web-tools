@@ -88,24 +88,24 @@ class MapTool {
    */
   geometryClick(obj) {
     const {
-      event: { taget, coordinate },
+      event: { target, coordinate },
       callback,
       opendot,
     } = obj;
 
-    const infoWindow = taget.getInfoWindow();
+    const infoWindow = target.getInfoWindow();
     if (infoWindow && infoWindow.isVisible()) {
-      taget.closeInfoWindow();
+      target.closeInfoWindow();
       callback ? callback(false) : null;
     } else {
       if (Array.isArray(opendot)) {
-        taget.openInfoWindow({ x: opendot[0], y: opendot[1] });
+        target.openInfoWindow({ x: opendot[0], y: opendot[1] });
         callback ? callback(true) : null;
       } else if (opendot) {
-        taget.openInfoWindow(coordinate);
+        target.openInfoWindow(coordinate);
         callback ? callback(true) : null;
       } else {
-        taget.openInfoWindow();
+        target.openInfoWindow();
         callback ? callback(true) : null;
       }
     }
