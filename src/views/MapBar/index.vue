@@ -62,11 +62,26 @@
           </div>
         </el-card>
       </el-col>
+      <el-col :xs="24" :sm="24" :md="24" :lg="24">
+        <el-card shadow="hover" :body-style="{ padding: '5px' }">
+          <div slot="header" class="el-card-header">
+            <span>示例四（MapbarTool 类，简化使用）</span>
+          </div>
+          <div class="mapbar4">
+            <map-bar2
+              :items="mapbarArr"
+              :selects="selectMapBar"
+              :callback="{ click: handleClickNodeThree }"
+            />
+          </div>
+        </el-card>
+      </el-col>
     </el-row>
   </div>
 </template>
 <script>
 import MapBar from "./MapBar.vue";
+import MapBar2 from "./MapBar2.vue";
 import {
   removeNodeSelect,
   addNodeSelect,
@@ -75,7 +90,7 @@ import {
 import mapbar from "../../mixins/mapbar";
 
 export default {
-  components: { MapBar },
+  components: { MapBar, MapBar2 },
   mixins: [mapbar],
   filters: {
     formatBtnType(item) {
@@ -214,7 +229,8 @@ export default {
   }
 }
 
-.mapbar2 {
+.mapbar2,
+.mapbar4 {
   height: 300px;
   position: relative;
   background-color: #2a2a2a;
