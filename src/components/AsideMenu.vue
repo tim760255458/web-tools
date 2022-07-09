@@ -34,6 +34,11 @@ export default {
         value: "/maptalks",
         icon: "el-icon-map-location",
       },
+      {
+        label: "虚拟树",
+        value: "/vtree",
+        icon: "el-icon-postcard",
+      },
     ],
   }),
 };

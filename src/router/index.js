@@ -59,7 +59,12 @@ export const routes = [
         path: "maptalks",
         name: "Maptalks",
         component: () => import("../views/Maptalks/index.vue"),
-      }
+      },
+      {
+        path: "vtree",
+        name: "VTree",
+        component: () => import("../views/VirtualTree.vue"),
+      },
     ],
   },
   {
