@@ -18,7 +18,7 @@ export default class virtualTree {
     this.childrenTag = prop.children;
 
     this.current = null;
-    this._formatTree = this._format(this.tree, 1, true);
+    this._formatTree = this._flattenFn(this._format(this.tree, 1, true));
   }
 
   /**
@@ -48,7 +48,21 @@ export default class virtualTree {
   }
 
   // 摊平
-  _flatten() {}
+  _flatten(arr, result) {
+    arr.forEach((el) => {
+      if (el.visible) {
+        result.push(el);
+      }
+      if (el.expanded && el.children && el.children.length > 0) {
+        this._flatten(el.children, result);
+      }
+    });
+  }
+  _flattenFn(arr) {
+    const result = [];
+    this._flatten(arr, result);
+    return result;
+  }
 
   // 截取
   _slice() {}

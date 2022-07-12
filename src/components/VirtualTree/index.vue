@@ -1,5 +1,5 @@
 <template>
-  <div class="virtual-tree">
+  <div class="virtual-tree" @scroll="handleScroll">
     <div
       class="virtual-tree-wrap"
       :style="{ height: `${itemHeight * list.length}px` }"
@@ -12,11 +12,11 @@
           :style="{ height: itemHeight + 'px' }"
         >
           <!-- 空白块，用于缩进不同级别节点 -->
-          <div v-if="item.label - 1">
-            <template v-for="num in item.label - 1">
+          <div class="virtual-tree-content-item__space" v-if="item.level - 1">
+            <template v-for="num in item.level - 1">
               <div
                 :key="`${idx}_${num}`"
-                class="virtual-tree-content-item__space"
+                class="virtual-tree-content-item__space__item"
               ></div>
             </template>
           </div>
@@ -79,7 +79,13 @@ export default {
     initVirtualTree() {
       this.virtualTreeIns = new VirtualTreeTool({
         tree: this.data,
+        expandedKeys: [5],
       });
+    },
+    handleScroll(event) {
+      const scrollTop = event.target.scrollTop;
+      const scrollNum = Math.floor(scrollTop / this.itemHeight);
+      console.log(scrollNum);
     },
   },
 };
@@ -104,8 +110,17 @@ export default {
       display: flex;
       align-items: center;
       background-color: bisque;
+      cursor: pointer;
+      &:hover {
+        background-color: aliceblue;
+      }
       &__space {
-        width: 40px;
+        height: 100%;
+        display: flex;
+        &__item {
+          width: 20px;
+          height: 100%;
+        }
       }
       &__check {
       }

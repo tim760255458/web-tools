@@ -1,6 +1,6 @@
 <template>
   <div class="virtual-tree">
-    <virtual-tree :data="treeData" />
+    <virtual-tree :data="treeData" showCheckbox />
   </div>
 </template>
 
@@ -27,6 +27,6 @@ export default {
 
 <style lang="scss" scoped>
 .virtual-tree {
-  height: 200px;
+  height: 100px;
 }
 </style>
