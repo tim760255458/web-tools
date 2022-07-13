@@ -2,9 +2,12 @@
   <div class="virtual-tree" @scroll="handleScroll">
     <div
       class="virtual-tree-wrap"
-      :style="{ height: `${itemHeight * list.length}px` }"
+      :style="{ height: `${itemHeight * virtualTreeIns._formatTree.length}px` }"
     ></div>
-    <div class="virtual-tree-content">
+    <div
+      class="virtual-tree-content"
+      :style="{ transform: `translateY(${scrollNum * itemHeight}px)` }"
+    >
       <template v-for="(item, idx) of list">
         <div
           :key="idx"
@@ -27,7 +30,10 @@
             </slot>
           </div>
           <!-- expaned 选择器 -->
-          <div class="virtual-tree-content-item__toggle">
+          <div
+            class="virtual-tree-content-item__toggle"
+            @click="virtualTreeIns._toggle(item.id)"
+          >
             <slot name="toggle" :node="item">
               <img
                 :class="[
@@ -63,14 +69,10 @@ export default {
     nodeKey: String,
     showCheckbox: { type: Boolean, default: false },
   },
-  computed: {
-    list() {
-      console.log(this.virtualTreeIns._formatTree);
-      return this.virtualTreeIns._formatTree;
-    },
-  },
   data: () => ({
     virtualTreeIns: { _formatTree: [] },
+    scrollNum: 0,
+    list: [],
   }),
   mounted() {
     this.initVirtualTree();
@@ -80,12 +82,14 @@ export default {
       this.virtualTreeIns = new VirtualTreeTool({
         tree: this.data,
         expandedKeys: [5],
+        renderNum: this.renderNum,
       });
+      this.list = this.virtualTreeIns.render(0);
     },
     handleScroll(event) {
       const scrollTop = event.target.scrollTop;
-      const scrollNum = Math.floor(scrollTop / this.itemHeight);
-      console.log(scrollNum);
+      this.scrollNum = Math.floor(scrollTop / this.itemHeight);
+      this.list = this.virtualTreeIns.render(this.scrollNum);
     },
   },
 };

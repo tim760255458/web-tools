@@ -18,7 +18,8 @@ export default class virtualTree {
     this.childrenTag = prop.children;
 
     this.current = null;
-    this._formatTree = this._flattenFn(this._format(this.tree, 1, true));
+    this._formatTree = this._format(this.tree, 1, true);
+    this._formatTreeList = this._flattenFn(this._formatTree);
   }
 
   /**
@@ -65,7 +66,9 @@ export default class virtualTree {
   }
 
   // 截取
-  _slice() {}
+  _slice(startNum) {
+    return this._formatTreeList.slice(startNum, startNum + this.renderNum);
+  }
 
   // 是否包含此节点
   _isIncludeNode(tree = [], nodeId) {
@@ -74,6 +77,19 @@ export default class virtualTree {
         el[this.idTag] === nodeId ||
         this._isIncludeNode(el[this.childrenTag], nodeId)
     );
+  }
+
+  add() {}
+
+  _toggle(id) {
+    const node = this._formatTreeList.find((el) => el[this.idTag] === id);
+    node.expanded = !node.expanded;
+  }
+
+  // render
+  render(startNum) {
+    const result = this._slice(startNum);
+    return result;
   }
 }
 
