@@ -90,6 +90,14 @@
           <vue-form-two ref="form7" :options="options4" />
         </el-card>
       </el-col>
+      <el-col :xs="24" :sm="24" :md="24" :lg="24">
+        <el-card shadow="hover" :body-style="{ padding: '5px' }">
+          <div slot="header" class="el-card-header">
+            <span>vue-upload(需要配置上传接口)</span>
+          </div>
+          <vue-form-two ref="form8" :options="options5" />
+        </el-card>
+      </el-col>
     </el-row>
   </div>
 </template>
@@ -244,6 +252,26 @@ export default {
           render: {
             is: "vue-checkbox",
             dictionaryKey: "key1",
+          },
+        },
+      ],
+    },
+    options5: {
+      attrs: {
+        size: "mini",
+        inline: true,
+      },
+      items: [
+        {
+          key: 1,
+          attrs: {
+            prop: "image",
+            label: "相关照片",
+          },
+          render: {
+            is: "vue-upload",
+            placeholder: "上传图片",
+            multiple: true,
           },
         },
       ],

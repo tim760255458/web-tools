@@ -33,7 +33,7 @@ export default {
     },
   },
   data: () => ({
-    tableRef: Symbol(),
+    tableRef: "tableRef",
     tableIns: {},
   }),
   computed: {

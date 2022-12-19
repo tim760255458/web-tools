@@ -28,6 +28,11 @@ export default {
       default: false,
     },
   },
+  provide() {
+    return {
+      closeDialog: this.handleClose,
+    };
+  },
   computed: {
     dialogVisible: {
       get() {
@@ -45,6 +50,9 @@ export default {
     },
     handlerCloseDialog() {
       this.$emit("close");
+    },
+    handleClose() {
+      this.$emit("input", false);
     },
   },
 };

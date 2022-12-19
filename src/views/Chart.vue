@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <el-row :gutter="10" class="w-full">
-      <el-col :xs="24" :sm="24" :md="8" :lg="6">
+      <el-col :xs="24" :sm="24" :md="8" :lg="8">
         <el-card shadow="hover" :body-style="{ padding: '5px' }">
           <div slot="header" class="el-card-header">
             <span>v-chart 指令</span>
@@ -10,7 +10,7 @@
           <div class="chart" v-chart="chartOption1"></div>
         </el-card>
       </el-col>
-      <el-col :xs="24" :sm="24" :md="8" :lg="6">
+      <el-col :xs="24" :sm="24" :md="8" :lg="8">
         <el-card shadow="hover" :body-style="{ padding: '5px' }">
           <div slot="header" class="el-card-header">
             <span>异步数据</span>
@@ -19,7 +19,7 @@
           <div class="chart" v-chart="chartOption2" ref="chart2"></div>
         </el-card>
       </el-col>
-      <el-col :xs="24" :sm="24" :md="8" :lg="6">
+      <el-col :xs="24" :sm="24" :md="8" :lg="8">
         <el-card shadow="hover" :body-style="{ padding: '5px' }">
           <div slot="header" class="el-card-header">
             <span>下钻</span>
@@ -27,7 +27,7 @@
           <div class="chart" v-chart="chartOption3" ref="chart3"></div>
         </el-card>
       </el-col>
-      <el-col :xs="24" :sm="24" :md="8" :lg="6">
+      <el-col :xs="24" :sm="24" :md="8" :lg="8">
         <el-card shadow="hover" :body-style="{ padding: '5px' }">
           <div slot="header" class="el-card-header">
             <span>形变动画</span>
@@ -35,11 +35,21 @@
           <div class="chart" v-chart.refresh="chartOption4" ref="chart4"></div>
         </el-card>
       </el-col>
+      <el-col :xs="24" :sm="24" :md="8" :lg="8">
+        <el-card shadow="hover" :body-style="{ padding: '5px' }">
+          <div slot="header" class="el-card-header">
+            <span>饼图渐变</span>
+          </div>
+          <div class="chart" v-chart.refresh="chartOption5" ref="chart5"></div>
+        </el-card>
+      </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
+import getPieChart1Option from "@/utils/charts/pieChart1.js";
+
 export default {
   data: () => ({
     xAxisArr1: ["星期一", "星期二", "星期三"],
@@ -81,10 +91,14 @@ export default {
 
     isRenderBar: true,
     timer4: 0,
+
+    chart5DomSize: { width: 450, height: 222 },
   }),
   mounted() {
     this.bindChart3Click();
     this.loopChartOption4();
+
+    this.chart5DomSize = this.$refs.chart5.getBoundingClientRect();
   },
   beforeDestroy() {
     clearInterval(this.timer2);
@@ -192,6 +206,9 @@ export default {
     },
     chartOption4() {
       return this.isRenderBar ? this.chartOption4_bar : this.chartOption4_pie;
+    },
+    chartOption5() {
+      return getPieChart1Option(this.chart5DomSize);
     },
   },
   methods: {

@@ -54,6 +54,7 @@ import VueSelect from "./components/VueSelect.vue";
 import VueRadio from "./components/VueRadio.vue";
 import VueCheckbox from "./components/VueCheckbox.vue";
 import VueCascader from "./components/VueCascader.vue";
+import VueUpload from "./components/VueUpload.vue";
 import initBus from "./store.js";
 
 export default {
@@ -62,6 +63,7 @@ export default {
     VueRadio,
     VueCheckbox,
     VueCascader,
+    VueUpload,
   },
   props: {
     options: {

@@ -15,8 +15,8 @@ export default function renderTable(h, ins) {
         },
       ],
       scopedSlots: {
-        empty: ins.$scopedSlots["empty"],
-        append: ins.$scopedSlots["append"],
+        empty: ins.$scopedSlots.empty,
+        append: ins.$scopedSlots.append,
       },
       // 将 el-table 实例作为每个事件监听的第一个参数
       on: Object.keys(ins.callback).reduce(

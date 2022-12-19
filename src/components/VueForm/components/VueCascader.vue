@@ -10,7 +10,7 @@ export default {
   name: "VueCascader",
   props: {
     value: {
-      type: Array,
+      type: [Array, String],
       default: () => [],
     },
     dictionaryKey: {

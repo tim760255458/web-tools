@@ -21,6 +21,7 @@ import VueSelect from "../VueForm/components/VueSelect.vue";
 import VueRadio from "../VueForm/components/VueRadio.vue";
 import VueCheckbox from "../VueForm/components/VueCheckbox.vue";
 import VueCascader from "../VueForm/components/VueCascader.vue";
+import VueUpload from "../VueForm/components/VueUpload.vue";
 
 export default {
   name: "OptionFormItem",
@@ -30,6 +31,7 @@ export default {
     VueRadio,
     VueCheckbox,
     VueCascader,
+    VueUpload,
   },
   props: {
     options: {

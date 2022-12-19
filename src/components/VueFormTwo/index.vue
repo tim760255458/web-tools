@@ -81,6 +81,11 @@ export default {
     setDictionary(key, arr = []) {
       this.bus.$emit("set-dic", key, arr);
     },
+    setFormModel(obj) {
+      Object.entries(obj).forEach(([key, value]) => {
+        this.$set(this.formModel, key, value);
+      });
+    },
   },
 };
 </script>
