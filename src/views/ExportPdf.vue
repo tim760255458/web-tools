@@ -26,7 +26,7 @@ export default {
     ],
   }),
   mounted() {
-    this.tableData = new Array(20).fill({
+    this.tableData = new Array(200).fill({
       key1: Math.floor(Math.random() * 200),
       key2: Math.floor(Math.random() * 200),
       key3: Math.floor(Math.random() * 200),
@@ -75,5 +75,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

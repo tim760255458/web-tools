@@ -1,6 +1,10 @@
 <template>
   <div class="page">
-    <h2>v-map 指令 / maptool (操作地图方法集)</h2>
+    <h2>使用 vue-maptalks-tool</h2>
+    <p>npm install vue-maptalks-tool</p>
+    <h2 style="text-decoration: line-through">
+      v-map 指令 / maptool (操作地图方法集)
+    </h2>
     <el-row :gutter="10" class="w-full">
       <el-col :xs="24" :sm="24" :md="8" :lg="6">
         <el-card shadow="hover" :body-style="{ padding: '5px' }">
