@@ -1,6 +1,9 @@
 <template>
   <div class="virtual-tree">
-    <virtual-tree :data="treeData" showCheckbox />
+    <div class="virtual-tree-inner">
+      <virtual-tree :data="treeData" showCheckbox />
+    </div>
+    <div class="virtual-tree-content"></div>
   </div>
 </template>
 
@@ -38,6 +41,12 @@ export default {
 
 <style lang="scss" scoped>
 .virtual-tree {
-  height: 200px;
+  &-inner {
+    height: 200px;
+  }
+  &-content {
+    font-size: 14px;
+    color: #333;
+  }
 }
 </style>
