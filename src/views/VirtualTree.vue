@@ -1,7 +1,12 @@
 <template>
   <div class="virtual-tree">
     <div class="virtual-tree-inner">
-      <virtual-tree :data="treeData" showCheckbox />
+      <virtual-tree
+        v-model="checkedArr"
+        :data="treeData"
+        :defaultExpanded="defaultExpanded"
+        showCheckbox
+      />
     </div>
     <div class="virtual-tree-content"></div>
   </div>
@@ -14,6 +19,8 @@ export default {
   components: { VirtualTree },
   data: () => ({
     treeData: [],
+    checkedArr: [2, 3],
+    defaultExpanded: [1],
   }),
   created() {
     this.initData();

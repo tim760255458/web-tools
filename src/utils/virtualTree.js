@@ -83,8 +83,14 @@ export default class virtualTree {
 
   _toggle(id) {
     const node = this._formatTreeList.find((el) => el[this.idTag] === id);
-    node.expanded = !node.expanded;
 
+    if (!node.expanded) {
+      this.expandedKeys.push(id);
+    } else {
+      this.expandedKeys = this.expandedKeys.filter((el) => el !== id);
+    }
+
+    this._formatTree = this._format(this.tree, 1, true);
     this._formatTreeList = this._flattenFn(this._formatTree);
   }
 

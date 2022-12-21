@@ -29,13 +29,17 @@
             <!-- checkbox 选择器 -->
             <div v-if="showCheckbox" class="virtual-tree-content-item__check">
               <slot name="checkbox" :node="item">
-                <input type="checkbox" :checked="item.checked" />
+                <input
+                  type="checkbox"
+                  :checked="checkedArr.includes(item.id)"
+                  @input="handleCheck(item.id)"
+                />
               </slot>
             </div>
             <!-- expaned 选择器 -->
             <div
               class="virtual-tree-content-item__toggle"
-              @click="virtualTreeIns._toggle(item.id, idx)"
+              @click="virtualTreeIns._toggle(item.id)"
             >
               <slot name="toggle" :node="item">
                 <img
@@ -65,13 +69,15 @@ export default {
   name: "VirtualTree",
   props: {
     itemHeight: { type: Number, default: 40 },
-    renderNum: { type: Number, default: 20 },
     data: {
       type: Array,
       default: () => [],
     },
     nodeKey: String,
     showCheckbox: { type: Boolean, default: false },
+    value: { type: Array, default: () => [] },
+    defaultExpanded: { type: Array, default: () => [] },
+    autoExpandParent: { type: Boolean, default: true },
   },
   data: () => ({
     virtualTreeIns: null,
@@ -83,6 +89,14 @@ export default {
         ? this.virtualTreeIns.render(this.scrollNum)
         : [];
     },
+    checkedArr: {
+      get() {
+        return this.value;
+      },
+      set(val) {
+        this.$emit("input", val);
+      },
+    },
   },
   mounted() {
     const domSize = this.$refs.tree.getBoundingClientRect();
@@ -92,9 +106,13 @@ export default {
     initVirtualTree(renderNum) {
       this.virtualTreeIns = new VirtualTreeTool({
         tree: this.data,
-        expandedKeys: [5],
+        expandedKeys: this.defaultExpanded,
         renderNum,
+        autoExpandParent: this.autoExpandParent,
       });
+      if (this.showCheckbox) {
+        this.$emit("checked", this.checkedArr);
+      }
     },
     handleScroll(event) {
       const scrollTop = event.target.scrollTop;
@@ -103,6 +121,15 @@ export default {
     handleToggle(id, idx) {
       this.virtualTreeIns._toggle(id);
       this.scrollNum = idx;
+    },
+    handleCheck(id) {
+      if (!this.showCheckbox) return;
+      if (this.checkedArr.includes(id)) {
+        this.checkedArr = this.checkedArr.filter((el) => el !== id);
+      } else {
+        this.checkedArr.push(id);
+      }
+      this.$emit("checked", this.checkedArr);
     },
   },
 };
