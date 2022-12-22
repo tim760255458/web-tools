@@ -31,15 +31,15 @@
               <slot name="checkbox" :node="item">
                 <input
                   type="checkbox"
-                  :checked="checkedArr.includes(item.id)"
-                  @input="handleCheck(item.id)"
+                  :checked="item.checked === 1"
+                  @input="handleCheck(item)"
                 />
               </slot>
             </div>
             <!-- expaned 选择器 -->
             <div
               class="virtual-tree-content-item__toggle"
-              @click="virtualTreeIns._toggle(item.id)"
+              @click.stop="virtualTreeIns._toggle(item.id)"
             >
               <slot name="toggle" :node="item">
                 <img
@@ -122,14 +122,15 @@ export default {
       this.virtualTreeIns._toggle(id);
       this.scrollNum = idx;
     },
-    handleCheck(id) {
-      if (!this.showCheckbox) return;
-      if (this.checkedArr.includes(id)) {
-        this.checkedArr = this.checkedArr.filter((el) => el !== id);
-      } else {
-        this.checkedArr.push(id);
-      }
-      this.$emit("checked", this.checkedArr);
+    handleCheck(node) {
+      // if (!this.showCheckbox) return;
+      // if (this.checkedArr.includes(id)) {
+      //   this.checkedArr = this.checkedArr.filter((el) => el !== id);
+      // } else {
+      //   this.checkedArr.push(id);
+      // }
+      // this.$emit("checked", this.checkedArr);
+      this.virtualTreeIns._check(node);
     },
   },
 };
