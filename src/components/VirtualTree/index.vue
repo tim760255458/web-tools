@@ -98,6 +98,12 @@ export default {
       },
     },
   },
+  watch: {
+    checkedArr() {
+      this.virtualTreeIns.setCheckedKeys(this.checkedArr);
+      this.virtualTreeIns.format();
+    },
+  },
   mounted() {
     const domSize = this.$refs.tree.getBoundingClientRect();
     this.initVirtualTree(Math.ceil(domSize.height / this.itemHeight) + 2);
@@ -107,11 +113,15 @@ export default {
       this.virtualTreeIns = new VirtualTreeTool({
         tree: this.data,
         expandedKeys: this.defaultExpanded,
+        checkedKeys: this.checkedArr,
         renderNum,
         autoExpandParent: this.autoExpandParent,
       });
       if (this.showCheckbox) {
-        this.$emit("checked", this.checkedArr);
+        setTimeout(() => {
+          // this.checkedArr = [...this.virtualTreeIns.checkedKeys];
+          this.$emit("checked", [...this.virtualTreeIns.checkedKeys]);
+        }, 0);
       }
     },
     handleScroll(event) {
@@ -123,14 +133,12 @@ export default {
       this.scrollNum = idx;
     },
     handleCheck(node) {
-      // if (!this.showCheckbox) return;
-      // if (this.checkedArr.includes(id)) {
-      //   this.checkedArr = this.checkedArr.filter((el) => el !== id);
-      // } else {
-      //   this.checkedArr.push(id);
-      // }
-      // this.$emit("checked", this.checkedArr);
-      this.virtualTreeIns._check(node);
+      if (!this.showCheckbox) return;
+      const checkeds = this.virtualTreeIns._check(node);
+      setTimeout(() => {
+        this.checkedArr = checkeds;
+        this.$emit("checked", [...this.virtualTreeIns.checkedKeys]);
+      }, 0);
     },
   },
 };

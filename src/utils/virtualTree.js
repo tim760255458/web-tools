@@ -18,8 +18,7 @@ export default class virtualTree {
     this.childrenTag = prop.children;
 
     this.current = null;
-    this._formatTree = this._format(this.tree, 1, true);
-    this._formatTreeList = this._flattenFn(this._formatTree);
+    this.format();
   }
 
   /**
@@ -99,8 +98,7 @@ export default class virtualTree {
       this.expandedKeys = this.expandedKeys.filter((el) => el !== nodeId);
     }
 
-    this._formatTree = this._format(this.tree, 1, true);
-    this._formatTreeList = this._flattenFn(this._formatTree);
+    this.format();
   }
 
   // 选中
@@ -117,8 +115,7 @@ export default class virtualTree {
       nodeIds.forEach((nodeId) => this.checkedKeys.delete(nodeId));
     }
 
-    this._formatTree = this._format(this.tree, 1, true);
-    this._formatTreeList = this._flattenFn(this._formatTree);
+    return [...this.checkedKeys];
   }
 
   // 获取当前节点的选中状态：1 选中 0 半选中 -1 未选中
@@ -159,6 +156,17 @@ export default class virtualTree {
     } else {
       return [node[this.idTag]];
     }
+  }
+
+  // 格式化
+  format() {
+    this._formatTree = this._format(this.tree, 1, true);
+    this._formatTreeList = this._flattenFn(this._formatTree);
+  }
+
+  // 设置 checkedKeys
+  setCheckedKeys(arr) {
+    this.checkedKeys = new Set(arr);
   }
 
   // render

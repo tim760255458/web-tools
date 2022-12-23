@@ -8,7 +8,9 @@
         showCheckbox
       />
     </div>
-    <div class="virtual-tree-content"></div>
+    <div class="virtual-tree-content">
+      <button @click="handleSetChecked">set checkd</button>
+    </div>
   </div>
 </template>
 
@@ -19,7 +21,7 @@ export default {
   components: { VirtualTree },
   data: () => ({
     treeData: [],
-    checkedArr: [2, 3],
+    checkedArr: [2],
     defaultExpanded: [1],
   }),
   created() {
@@ -41,6 +43,9 @@ export default {
           .fill(1)
           .map((el, idx) => ({ id: 6 + idx, label: `节点${6 + idx}` })),
       ];
+    },
+    handleSetChecked() {
+      this.checkedArr = [2, 5];
     },
   },
 };
