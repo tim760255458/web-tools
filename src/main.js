@@ -22,6 +22,9 @@ import "dayjs/locale/zh-cn";
 
 import * as turf from "@turf/turf";
 
+import * as echarts from "echarts";
+import VueEchartsPlugin from "vue-echarts-plugin";
+
 Vue.use(ElementUI, { size: "small" });
 
 window.$maptalks = maptalks;
@@ -35,6 +38,8 @@ dayjs.locale("zh-cn");
 Vue.prototype.$dayjs = dayjs;
 
 Vue.prototype.$turf = turf;
+
+Vue.use(VueEchartsPlugin, { echarts });
 
 bindDirect(Vue);
 bindComponents(Vue);

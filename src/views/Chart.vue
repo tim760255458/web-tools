@@ -4,10 +4,10 @@
       <el-col :xs="24" :sm="24" :md="8" :lg="8">
         <el-card shadow="hover" :body-style="{ padding: '5px' }">
           <div slot="header" class="el-card-header">
-            <span>v-chart 指令</span>
+            <span>v-chart2 指令</span>
             <el-button type="text" @click="changeChartOption1">修改</el-button>
           </div>
-          <div class="chart" v-chart="chartOption1"></div>
+          <div class="chart" v-chart2="chartOption1"></div>
         </el-card>
       </el-col>
       <el-col :xs="24" :sm="24" :md="8" :lg="8">
@@ -16,7 +16,7 @@
             <span>异步数据</span>
             <el-button type="text" @click="loadChartOption2">加载</el-button>
           </div>
-          <div class="chart" v-chart="chartOption2" ref="chart2"></div>
+          <div class="chart" v-chart2="chartOption2" ref="chart2"></div>
         </el-card>
       </el-col>
       <el-col :xs="24" :sm="24" :md="8" :lg="8">
@@ -24,7 +24,7 @@
           <div slot="header" class="el-card-header">
             <span>下钻</span>
           </div>
-          <div class="chart" v-chart="chartOption3" ref="chart3"></div>
+          <div class="chart" v-chart2="chartOption3" ref="chart3"></div>
         </el-card>
       </el-col>
       <el-col :xs="24" :sm="24" :md="8" :lg="8">
@@ -32,7 +32,7 @@
           <div slot="header" class="el-card-header">
             <span>形变动画</span>
           </div>
-          <div class="chart" v-chart.refresh="chartOption4" ref="chart4"></div>
+          <div class="chart" v-chart2.refresh="chartOption4" ref="chart4"></div>
         </el-card>
       </el-col>
       <el-col :xs="24" :sm="24" :md="8" :lg="8">
@@ -40,15 +40,32 @@
           <div slot="header" class="el-card-header">
             <span>饼图渐变</span>
           </div>
-          <div class="chart" v-chart.refresh="chartOption5" ref="chart5"></div>
+          <div class="chart" v-chart2.refresh="chartOption5" ref="chart5"></div>
         </el-card>
       </el-col>
+      <template v-for="item in chartArr">
+        <el-col :key="item.name" :xs="24" :sm="24" :md="8" :lg="8">
+          <el-card shadow="hover" :body-style="{ padding: '5px' }">
+            <div slot="header" class="el-card-header">
+              <span>{{ item.title }}</span>
+              <el-button type="text" @click="handleCopy(item.module)"
+                >复制</el-button
+              >
+            </div>
+            <div
+              class="chart"
+              v-chart="item.fn(item.data, chart5DomSize)"
+            ></div>
+          </el-card>
+        </el-col>
+      </template>
     </el-row>
   </div>
 </template>
 
 <script>
 import getPieChart1Option from "@/utils/charts/pieChart1.js";
+import getChartModules from "@/utils/charts/index.js";
 
 export default {
   data: () => ({
@@ -93,10 +110,14 @@ export default {
     timer4: 0,
 
     chart5DomSize: { width: 450, height: 222 },
+
+    chartArr: [],
   }),
   mounted() {
     this.bindChart3Click();
     this.loopChartOption4();
+
+    this.chartArr = getChartModules();
 
     this.chart5DomSize = this.$refs.chart5.getBoundingClientRect();
   },
@@ -278,6 +299,12 @@ export default {
         () => (this.isRenderBar = !this.isRenderBar),
         3000
       );
+    },
+
+    handleCopy(module) {
+      const exampleDataStr = JSON.stringify(module.exampleData, null, 2);
+      const getOptionStr = module.getOption + "";
+      console.log(`const exampleData = ${exampleDataStr}\n${getOptionStr}`);
     },
   },
 };
